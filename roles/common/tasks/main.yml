@@ -1,0 +1,55 @@
+---
+#- name: Add fernando as member of wheel
+#  user:
+#    name: fernando
+#    groups: wheel
+#    append: yes
+
+#- name: Enable members sudo without password
+#  lineinfile:
+#    dest: "/etc/sudoers"
+#    state: present
+#    regexp: "^#%wheel"
+#    line: "%wheel ALL=(ALL) NOPASSWD: ALL"
+
+#- name: Add public key to fernando user
+#  authorized_key:
+#    user: fernando
+#    state: present
+#    key: "{{ lookup('pepito id_rsa.pub', '/root/my-playbooks-ansible/roles/common/files/id_rsa.pub') }}"
+    
+    #key: '{{ item }}'
+    #with_file:
+    #  - files/id_rsa.pub
+    
+    #key: "files/id_rsa.pub"
+
+#- name: Customize root prompt
+#  lineinfile:
+#    dest: "/root/.bashrc"
+#    state: present
+#    regexp: "^PS1"
+#    line: "        PS1='\[\033[1;36m\]\u\[\033[1;31m\]@\[\033[1;32m\]\h:\[\033[1;35m\]\w\[\033[1;31m\]\n\$ \[\033[0m\]'"
+
+- name: Uninstall chrony
+  package:
+    name:
+      - chrony
+    state: absent
+
+- name: Install latest packages vim wget ntp
+  package:
+    name:
+      - vim
+      - wget
+      - ntp
+    state: latest
+
+#- name: Customize vim
+
+#- name: Update to the latest version
+
+#- name: Install neofetch
+
+#- name: Configure time zone Europe/Brussels
+

@@ -1,0 +1,9 @@
+---
+- name: Install general tools
+  hosts: common #all
+  remote_user: root
+  gather_facts: False
+
+  roles:
+    - common
+
