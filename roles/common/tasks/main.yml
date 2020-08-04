@@ -1,16 +1,16 @@
 ---
-#- name: Add fernando as member of wheel
-#  user:
-#    name: fernando
-#    groups: wheel
-#    append: yes
+- name: Add fernando as member of wheel
+  user:
+    name: fernando
+    groups: wheel
+    append: yes
 
-#- name: Enable members sudo without password
-#  lineinfile:
-#    dest: "/etc/sudoers"
-#    state: present
-#    regexp: "^#%wheel"
-#    line: "%wheel ALL=(ALL) NOPASSWD: ALL"
+- name: Enable members sudo without password
+  lineinfile:
+    dest: "/etc/sudoers"
+    state: present
+    regexp: "^#%wheel"
+    line: "%wheel ALL=(ALL) NOPASSWD: ALL"
 
 #- name: Add public key to fernando user
 #  authorized_key:
@@ -45,11 +45,22 @@
       - ntp
     state: latest
 
-#- name: Customize vim
+- name: Customize vim
+  blockinfile:
+    path: /root/.vimrc
+    block: |
+      color murphy
+      set tabstop=2 shiftwidth=2 expandtab
 
-#- name: Update to the latest version
+- name: Update to the latest version
+  yum:
+    name: "*"
+    state: latest
 
 #- name: Install neofetch
 
-#- name: Configure time zone Europe/Brussels
+- name: Configure time zone Europe/Brussels
+  timezone:
+    name: Europe/Brussels
+
 
