@@ -43,6 +43,7 @@
       - ntp
       - neofetch
       - htop
+      - git
     state: latest
 
 - name: Customize vim

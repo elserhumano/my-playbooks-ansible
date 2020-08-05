@@ -1,0 +1,15 @@
+---
+- name: Add puppet repo for Centos 7
+  yum_repository:
+    name: puppet-tools
+    description: Puppet Tools Repo
+    baseurl: http://yum.puppet.com/puppet-tools/el/7/$basearch
+    gpgcheck: no
+
+- name: Install Puppet bolt and pdk
+  package:
+    name:
+      - puppet-bolt
+      - pdk
+    state: latest
+
