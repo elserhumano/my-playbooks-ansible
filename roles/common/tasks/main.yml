@@ -1,48 +1,48 @@
 ---
-- name: Add fernando as member of wheel
+- name: Add user fernando as member of wheel
   user:
     name: fernando
     groups: wheel
     append: yes
 
-- name: Enable members sudo without password
+- name: Enable members wheel do sudo without password
   lineinfile:
     dest: "/etc/sudoers"
     state: present
     regexp: "^#%wheel"
     line: "%wheel ALL=(ALL) NOPASSWD: ALL"
 
-#- name: Add public key to fernando user
-#  authorized_key:
-#    user: fernando
-#    state: present
-#    key: "{{ lookup('pepito id_rsa.pub', '/root/my-playbooks-ansible/roles/common/files/id_rsa.pub') }}"
+- name: Add public key to fernando user
+  authorized_key:
+    user: fernando
+    state: present
+    key: "{{ lookup('file', 'files/id_rsa.pub') }}"
     
-    #key: '{{ item }}'
-    #with_file:
-    #  - files/id_rsa.pub
-    
-    #key: "files/id_rsa.pub"
-
-#- name: Customize root prompt
-#  lineinfile:
-#    dest: "/root/.bashrc"
-#    state: present
-#    regexp: "^PS1"
-#    line: "        PS1='\[\033[1;36m\]\u\[\033[1;31m\]@\[\033[1;32m\]\h:\[\033[1;35m\]\w\[\033[1;31m\]\n\$ \[\033[0m\]'"
-
-- name: Uninstall chrony
+- name: Uninstall package chrony
   package:
     name:
       - chrony
     state: absent
 
-- name: Install latest packages vim wget ntp
+- name: Add repo for install neofetch later for Centos 7
+  uri:
+    url: https://copr.fedorainfracloud.org/coprs/konimex/neofetch/repo/epel-7/konimex-neofetch-epel-7.repo
+    dest: /etc/yum.repos.d/konimex-neofetch-epel-7.repo
+
+- name: Add Epel repo for another installations for Centos 7
+  yum_repository:
+    name: epel
+    description: EPEL YUM repo
+    baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+
+- name: Install latest packages vim wget ntp neofetch htop
   package:
     name:
       - vim
       - wget
       - ntp
+      - neofetch
+      - htop
     state: latest
 
 - name: Customize vim
@@ -52,15 +52,26 @@
       color murphy
       set tabstop=2 shiftwidth=2 expandtab
 
-- name: Update to the latest version
+- name: Update OS to the latest version
   yum:
     name: "*"
     state: latest
-
-#- name: Install neofetch
 
 - name: Configure time zone Europe/Brussels
   timezone:
     name: Europe/Brussels
 
+- name: Add neofetch execution
+  lineinfile:
+    dest: "/root/.bashrc"
+    state: present
+    regexp: neofetch
+    line: neofetch
+
+- name: Customize root prompt
+  lineinfile:
+    dest: "/root/.bashrc"
+    state: present
+    regexp: ^PS1
+    line: PS1='\[\033[1;36m\]\u\[\033[1;31m\]@\[\033[1;32m\]\h:\[\033[1;35m\]\w\[\033[1;31m\]\n\$ \[\033[0m\]'
 
