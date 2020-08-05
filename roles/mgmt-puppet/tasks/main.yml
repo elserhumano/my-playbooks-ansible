@@ -6,10 +6,18 @@
     baseurl: http://yum.puppet.com/puppet-tools/el/7/$basearch
     gpgcheck: no
 
-- name: Install Puppet bolt and pdk
+- name: Add puppet agent repo for Centos 7
+  yum_repository:
+    name: puppet-agent
+    description: Puppet Agent Repo
+    baseurl: https://yum.puppet.com/puppet6/el/7/$basearch
+    gpgcheck: no
+
+- name: Install Puppet bolt - pdk - agent
   package:
     name:
       - puppet-bolt
       - pdk
+      - puppet-agent
     state: latest
 
