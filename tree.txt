@@ -1,0 +1,10 @@
+.
+├── server_setup
+│   ├── hosts.yml
+│   ├── README.md
+│   ├── roles
+│   ├── run.sh
+│   └── site.yml
+└── tree.txt
+
+2 directories, 5 files
